@@ -2,13 +2,17 @@ package clients;
 
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.http.client.HttpClient;
+import com.consol.citrus.message.MessageType;
+import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.jfr.Description;
 import models.Duck;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.util.MultiValueMap;
 import tests.EndpointConfig;
 
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
@@ -19,7 +23,7 @@ public class DuckCRUDClient {
     @Autowired
     protected HttpClient duckService;
 
-    public void duckCreate(TestCaseRunner runner,Duck duck) throws JsonProcessingException {
+    public void duckCreate(TestCaseRunner runner, Duck duck) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonDuck = objectMapper.writeValueAsString(duck);
@@ -30,6 +34,39 @@ public class DuckCRUDClient {
                 .message()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(jsonDuck));
+    }
+
+    @Description("Валидация полученного ответа String'ой метода Create /api/duck/create")
+    public void validateResponseWithString(TestCaseRunner runner, String expectedFile) {
+        runner.run(http().client(duckService)
+                .receive()
+                .response(HttpStatus.OK)
+                .message().type(MessageType.JSON)
+                .body("{\n" + //проверка тела ответа
+                        " \"color\": \"yellow\",\n" +
+                        " \"height\": 10,\n" +
+                        " \"material\": \"rubber\",\n" +
+                        " \"sound\": \"quack-quack\",\n" +
+                        " \"wingsState\": \"ACTIVE\"\n" +
+                        "}"));
+    }
+
+    @Description("Валидация полученного ответа с передачей ответа из папки resources метода Create /api/duck/create")
+    public void validateResponseWithFileFromResources(TestCaseRunner runner, String expectedFile) {
+        runner.run(http().client(duckService)
+                .receive()
+                .response(HttpStatus.OK)
+                .message().type(MessageType.JSON)
+                .body(new ClassPathResource(expectedFile)));
+    }
+
+    @Description("Валидация полученного ответа с передачей ответа из папки payloads метода Create /api/duck/create")
+    public void validateResponseBodyFromPayloads(TestCaseRunner runner, Object expectedPayload) {
+        runner.run(http().client(duckService)
+                .receive()
+                .response(HttpStatus.OK)
+                .message().type(MessageType.JSON)
+                .body(new ObjectMappingPayloadBuilder(expectedPayload, new ObjectMapper())));
     }
 
     public void duckDelete(TestCaseRunner runner, String id) {

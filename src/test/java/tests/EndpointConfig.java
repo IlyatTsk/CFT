@@ -17,7 +17,7 @@ public class EndpointConfig {
     public static final String SWIM = "/api/duck/action/swim";
 
     @Bean
-    public HttpClient duckService (){
+    public HttpClient duckService() {
         return new HttpClientBuilder()
                 .requestUrl("http://localhost:2222")
                 .build();

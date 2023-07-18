@@ -3,7 +3,7 @@ package models;
 public class Duck {
 
     private String color;
-    private int height;
+    private double height;
     private String material;
     private String sound;
     private String wingsState;
@@ -24,11 +24,11 @@ public class Duck {
         this.color = color;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
