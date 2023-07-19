@@ -17,6 +17,9 @@ public class PostRequestCreate {
     private double height;
 
     @JsonProperty
+    private int id;
+
+    @JsonProperty
     private String material;
 
     @JsonProperty

@@ -27,14 +27,12 @@ public class DuckActionsClient {
     }
 
     @Description("Валидация полученного ответа String'ой метода Fly /api/duck/action/fly")
-    public void validateResponseWithString(TestCaseRunner runner, String expectedFile) {
+    public void validateResponseWithString(TestCaseRunner runner, String expectedString) {
         runner.run(http().client(duckService)
                 .receive()
                 .response(HttpStatus.OK)
                 .message().type(MessageType.JSON)
-                .body("{\n" +
-                        "  \"message\": \"string\"\n" +
-                        "}"));
+                .body(expectedString));
     }
 
     @Description("Валидация полученного ответа с передачей ответа из папки resources метода Fly /api/duck/action/fly")
