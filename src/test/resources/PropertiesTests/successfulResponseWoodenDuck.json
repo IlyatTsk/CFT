@@ -1,7 +1,7 @@
 {
   "color": "yellow",
   "height": 0,
-  "material": "rubber",
+  "material": "wooden",
   "sound": "quack",
   "wingsState": "ACTIVE"
 }

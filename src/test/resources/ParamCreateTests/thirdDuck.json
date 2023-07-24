@@ -1,6 +1,7 @@
 {
   "color": "yellow",
-  "height": 0,
+  "height": 3.0,
+  "id": "@ignore@",
   "material": "rubber",
   "sound": "quack",
   "wingsState": "ACTIVE"

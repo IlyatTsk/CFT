@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(fluent = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PostRequestCreate {
+public class DuckProperties {
 
     @JsonProperty
     private String color;
@@ -26,5 +26,5 @@ public class PostRequestCreate {
     private String sound;
 
     @JsonProperty
-    private String wingState;
+    private String wingsState;
 }

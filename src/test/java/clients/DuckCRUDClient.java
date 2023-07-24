@@ -1,85 +1,60 @@
 package clients;
 
 import com.consol.citrus.TestCaseRunner;
-import com.consol.citrus.http.client.HttpClient;
-import com.consol.citrus.message.MessageType;
-import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.jfr.Description;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
+import tests.BaseTest;
 import tests.EndpointConfig;
 
-import static com.consol.citrus.http.actions.HttpActionBuilder.http;
+public class DuckCRUDClient extends BaseTest {
 
-@ContextConfiguration(classes = {EndpointConfig.class})
-public class DuckCRUDClient {
-
-    @Autowired
-    protected HttpClient duckService;
-
-    public void duckCreate(TestCaseRunner runner, String expectedFile){
-        runner.run(http().client(duckService)
-                .send()
-                .post(EndpointConfig.CREATE)
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new ClassPathResource(expectedFile)));
+    @Description("Выполнение запроса метода /api/duck/create с помощью файла")
+    public void duckCreate(TestCaseRunner runner, String expectedFile) {
+        sendPostRequestFromFile(runner, EndpointConfig.CREATE, expectedFile);
     }
 
-    @Description("Валидация полученного ответа String'ой метода Create /api/duck/create")
-    public void validateResponseWithString(TestCaseRunner runner, String expectedString) {
-        runner.run(http().client(duckService)
-                .receive()
-                .response(HttpStatus.OK)
-                .message().type(MessageType.JSON)
-                .body(expectedString));
+    @Description("Выполнение запроса метода /api/duck/create с помощью файла")
+    public void duckCreateWithPayload(TestCaseRunner runner,Object body) {
+        sendPostRequestWithPayloadBase(runner, EndpointConfig.CREATE, body);
     }
 
-    @Description("Валидация полученного ответа с передачей ответа из папки resources метода Create /api/duck/create")
-    public void validateResponseWithFileFromResources(TestCaseRunner runner, String expectedFile) {
-        runner.run(http().client(duckService)
-                .receive()
-                .response(HttpStatus.OK)
-                .message().type(MessageType.JSON)
-                .body(new ClassPathResource(expectedFile)));
-    }
-
-    @Description("Валидация полученного ответа с передачей ответа из папки payloads метода Create /api/duck/create")
-    public void validateResponseBodyFromPayloads(TestCaseRunner runner, Object expectedPayload) {
-        runner.run(http().client(duckService)
-                .receive()
-                .response(HttpStatus.OK)
-                .message().type(MessageType.JSON)
-                .body(new ObjectMappingPayloadBuilder(expectedPayload, new ObjectMapper())));
-    }
-
+    @Description("Выполнение запроса метода /api/duck/delete")
     public void duckDelete(TestCaseRunner runner, String id) {
-        runner.run(http().client(duckService)
-                .send()
-                .delete(EndpointConfig.DELETE)
-                .queryParam(id));
+        sendDeleteRequest(runner, EndpointConfig.DELETE, "id", id);
     }
 
-    public void duckGetAllIds(TestCaseRunner runner, String id) {
-        runner.run(http().client(duckService)
-                .send()
-                .get(EndpointConfig.GET_ALL_IDS)
-                .queryParam(id));
+    @Description("Выполнение запроса метода /api/duck//api/duck/getAllIds")
+    public void duckGetAllIds(TestCaseRunner runner) {
+        sendGetRequestWithoutQueryParams(runner, EndpointConfig.GET_ALL_IDS);
     }
 
+    @Description("Выполнение запроса метода /api/duck/update")
     public void duckUpdate(TestCaseRunner runner, String color, String height, String id, String material, String sound, String wingsState) {
-        runner.run(http().client(duckService)
-                .send()
-                .put(EndpointConfig.UPDATE)
-                .queryParam("color", color)
-                .queryParam("height", height)
-                .queryParam("id", id)
-                .queryParam("material", material)
-                .queryParam("sound", sound)
-                .queryParam("wingsState", wingsState));
+        sendPutRequest(runner, EndpointConfig.UPDATE, color, height, id, material, sound, wingsState);
+    }
+
+    @Description("Валидация полученного ответа String'ой")
+    public void validateResponseWithString(TestCaseRunner runner, HttpStatus statusCode, String expectedString) {
+        validateResponseWithStringBase(runner, statusCode, expectedString);
+    }
+
+    @Description("Валидация полученного ответа с передачей ответа из папки resources")
+    public void validateResponseWithFileFromResources(TestCaseRunner runner, HttpStatus statusCode, String expectedFile) {
+        validateResponseWithFileFromResourcesBase(runner, statusCode, expectedFile);
+    }
+
+    @Description("Валидация полученного ответа с передачей ответа из папки payloads")
+    public void validateResponseBodyFromPayloads(TestCaseRunner runner, HttpStatus statusCode, Object expectedPayload) {
+        validateResponseBodyFromPayloadsBase(runner, statusCode, expectedPayload);
+    }
+
+    @Description("Выполнение запроса метода /api/duck/action/properties")
+    public void duckShowProperties(TestCaseRunner runner, String id) {
+        sendGetRequest(runner, EndpointConfig.PROPERTIES, "id", id);
+    }
+
+    @Description("Экстракт id")
+    public void extractId(TestCaseRunner runner){
+        extractIdFromResponse(runner);
     }
 }
