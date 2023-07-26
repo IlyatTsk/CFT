@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-public class DuckControllerUpdateTests extends DuckCRUDClient {
+public class DuckUpdateTests extends DuckCRUDClient {
 
     @CitrusTest
     @Test(description = "Проверка успешного обновления данных уточки")

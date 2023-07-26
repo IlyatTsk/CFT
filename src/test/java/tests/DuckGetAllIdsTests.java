@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-public class DuckControllerGetAllIdsTests extends DuckCRUDClient {
+public class DuckGetAllIdsTests extends DuckCRUDClient {
 
     @CitrusTest
     @Test(description = "Проверка корректного запроса метода, при создании трех уточек")

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-public class DuckActionsQuackTests extends DuckActionsClient {
+public class DuckQuackTests extends DuckActionsClient {
 
     @CitrusTest
     @Test(description = "Проверка того, что уточка крякает 1 раз")

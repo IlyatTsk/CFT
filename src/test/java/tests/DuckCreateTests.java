@@ -11,12 +11,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 import payloads.DuckProperties;
 
-public class DuckControllerCreateTests extends DuckCRUDClient {
+public class DuckCreateTests extends DuckCRUDClient {
 
     @CitrusTest
     @Test(description = "Проверка корректно созданной уточки")
     public void successfulCreate(@Optional @CitrusResource TestCaseRunner runner) {
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
+        validateResponseWithFileFromResourcesBase(runner, HttpStatus.OK, "PropertiesTests/successfulResponse.json");
         extractId(runner);
 
         duckShowProperties(runner, "${duckId}");

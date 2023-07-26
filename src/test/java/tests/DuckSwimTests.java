@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
-public class DuckActionsSwimTests extends DuckActionsClient {
+public class DuckSwimTests extends DuckActionsClient {
 
     @CitrusTest
     @Test(description = "Проверка того, что уточка поплыла")
