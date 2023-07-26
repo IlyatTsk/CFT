@@ -8,7 +8,7 @@ public class EndpointConfig {
 
     public static final String CREATE = "/api/duck/create";
     public static final String DELETE = "/api/duck/delete";
-    public static final String GET_ALL_IDS = "/api/duck//api/duck/getAllIds";
+    public static final String GET_ALL_IDS = "/api/duck/getAllIds";
     public static final String UPDATE = "/api/duck/update";
 
     public static final String FLY = "/api/duck/action/fly";
