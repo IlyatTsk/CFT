@@ -4,7 +4,6 @@ import clients.DuckCRUDClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
-import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
@@ -18,21 +17,19 @@ public class DuckUpdateTests extends DuckCRUDClient {
 
         duckUpdate(runner, "yellow", "0.01", "1", "rubber", "quack", "ACTIVE");
 
-        validateResponseWithFileFromResources(runner, HttpStatus.OK, "UpdateTests/successfulUpdate.json");
-
+        validateCreateDuck(runner, "${duckId}", "yellow", "0.0", "rubber", "quack", "ACTIVE");
         duckDelete(runner, "${duckId}");
     }
 
     @CitrusTest
-    @Test(description = "Проверка успешного обновления данных уточки")
+    @Test(description = "Проверка успешного обновления данных уточки со звуком meow")
     public void successfulUpdateWithSoundIsMeow(@Optional @CitrusResource TestCaseRunner runner) {
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         extractId(runner);
 
         duckUpdate(runner, "yellow", "0.01", "1", "rubber", "meow", "ACTIVE");
 
-        validateResponseWithFileFromResources(runner, HttpStatus.OK, "UpdateTests/successfulUpdate.json");
-
+        validateCreateDuck(runner, "${duckId}", "yellow", "0.0", "rubber", "meow", "ACTIVE");
         duckDelete(runner, "${duckId}");
     }
 }

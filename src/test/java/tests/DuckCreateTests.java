@@ -13,6 +13,12 @@ import payloads.DuckProperties;
 
 public class DuckCreateTests extends DuckCRUDClient {
 
+    DuckProperties firstDuck = new DuckProperties().color("yellow").height(1).sound("quack").material("rubber").wingsState("ACTIVE");
+    DuckProperties secondDuck = new DuckProperties().color("yellow").height(2).sound("quack").material("rubber").wingsState("ACTIVE");
+    DuckProperties thirdDuck = new DuckProperties().color("yellow").height(3).sound("quack").material("rubber").wingsState("ACTIVE");
+    DuckProperties fourthDuck = new DuckProperties().color("yellow").height(4).sound("quack").material("rubber").wingsState("ACTIVE");
+    DuckProperties fifthDuck = new DuckProperties().color("yellow").height(5).sound("quack").material("rubber").wingsState("ACTIVE");
+
     @CitrusTest
     @Test(description = "Проверка корректно созданной уточки")
     public void successfulCreate(@Optional @CitrusResource TestCaseRunner runner) {
@@ -62,12 +68,6 @@ public class DuckCreateTests extends DuckCRUDClient {
         validateResponseWithFileFromResources(runner, HttpStatus.OK, "getDuckPropertiesTest/createTwoYellowRubberActiveDuck.json");
     }
 
-    DuckProperties firstDuck = new DuckProperties().color("yellow").height(1).sound("quack").material("rubber").wingsState("ACTIVE");
-    DuckProperties secondDuck = new DuckProperties().color("yellow").height(2).sound("quack").material("rubber").wingsState("ACTIVE");
-    DuckProperties thirdDuck = new DuckProperties().color("yellow").height(3).sound("quack").material("rubber").wingsState("ACTIVE");
-    DuckProperties fourthDuck = new DuckProperties().color("yellow").height(4).sound("quack").material("rubber").wingsState("ACTIVE");
-    DuckProperties fifthDuck = new DuckProperties().color("yellow").height(5).sound("quack").material("rubber").wingsState("ACTIVE");
-
     @CitrusTest
     @Test(dataProvider = "duckList")
     @CitrusParameters({"body", "response", "runner"})
@@ -86,5 +86,15 @@ public class DuckCreateTests extends DuckCRUDClient {
                 {fourthDuck, "ParamCreateTests/fourthDuck.json", null},
                 {fifthDuck, "ParamCreateTests/fifthDuck.json", null}
         };
+    }
+
+    @CitrusTest
+    @Test(description = "Создание уточки с проверкой данных в БД")
+    public void successfulCreateAndChekFromDataBase(@Optional @CitrusResource TestCaseRunner runner) {
+        duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
+        extractId(runner);
+
+        validateCreateDuck(runner, "${duckId}", "yellow", "0.0", "rubber", "quack", "ACTIVE");
+        duckDelete(runner, "${duckId}");
     }
 }

@@ -25,6 +25,8 @@ public class DuckGetAllIdsTests extends DuckCRUDClient {
     @CitrusTest
     @Test(description = "Проверка вызова метода без создания уточек")
     public void successfulGetAllIdsWithoutCreateDucks(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckGetAllIds(runner);
 
         validateResponseWithString(runner, HttpStatus.OK, "[]");

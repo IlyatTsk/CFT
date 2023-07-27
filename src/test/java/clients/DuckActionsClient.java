@@ -57,4 +57,14 @@ public class DuckActionsClient extends BaseTest {
     public void extractId(TestCaseRunner runner) {
         extractIdFromResponse(runner);
     }
+
+    @Description("Удаление уточки из БД")
+    public void deleteDuckFinally(TestCaseRunner runner, String sql) {
+        sendDeleteDuckFinally(runner, sql);
+    }
+
+    @Description("Добавление уточки в БД")
+    public void insertDuckIntoDataBase(TestCaseRunner runner, String sql) {
+        sendDatabaseUpdate(runner, sql);
+    }
 }
