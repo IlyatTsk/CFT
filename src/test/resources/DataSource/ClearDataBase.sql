@@ -1,1 +1,1 @@
-DELETE FROM table_name; commit;
+DELETE FROM DUCK; commit;

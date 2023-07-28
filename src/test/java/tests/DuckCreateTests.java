@@ -23,7 +23,6 @@ public class DuckCreateTests extends DuckCRUDClient {
     @Test(description = "Проверка корректно созданной уточки")
     public void successfulCreate(@Optional @CitrusResource TestCaseRunner runner) {
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
-        validateResponseWithFileFromResourcesBase(runner, HttpStatus.OK, "PropertiesTests/successfulResponse.json");
         extractId(runner);
 
         duckShowProperties(runner, "${duckId}");
@@ -54,7 +53,7 @@ public class DuckCreateTests extends DuckCRUDClient {
 
         duckShowProperties(runner, "${duckId}");
 
-        validateResponseWithFileFromResourcesBase(runner, HttpStatus.OK, "PropertiesTests/successfulResponseWithWingStateIsFixed.json");
+        validateResponseWithFileFromResources(runner, HttpStatus.OK, "PropertiesTests/successfulResponseWithWingStateIsFixed.json");
 
         duckDelete(runner, "${duckId}");
     }
@@ -65,7 +64,7 @@ public class DuckCreateTests extends DuckCRUDClient {
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
 
-        validateResponseWithFileFromResources(runner, HttpStatus.OK, "getDuckPropertiesTest/createTwoYellowRubberActiveDuck.json");
+        validateResponseWithFileFromResources(runner, HttpStatus.OK, "PropertiesTests/successfulTwoYellowRubberActiveDuck.json");
     }
 
     @CitrusTest

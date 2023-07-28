@@ -67,4 +67,9 @@ public class DuckActionsClient extends BaseTest {
     public void insertDuckIntoDataBase(TestCaseRunner runner, String sql) {
         sendDatabaseUpdate(runner, sql);
     }
+
+    @Description("Очищение БД")
+    public void clearDataBase(TestCaseRunner runner, String sql) {
+        sendDatabaseUpdate(runner, sql);
+    }
 }
