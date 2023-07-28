@@ -4,14 +4,17 @@ import clients.DuckCRUDClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
 import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Тестовый класс проверок метода получения списка всех ID")
+@Test(priority = 1)
 public class DuckGetAllIdsTests extends DuckCRUDClient {
 
     @CitrusTest
-    @Test(description = "Проверка корректного запроса метода, при создании трех уточек")
+    @Test(priority = 3, description = "Проверка корректного запроса метода, при создании трех уточек")
     public void successfulGetAllIds(@Optional @CitrusResource TestCaseRunner runner) {
         clearDataBase(runner, "DataSource/ClearDataBase.sql");
 
@@ -25,7 +28,7 @@ public class DuckGetAllIdsTests extends DuckCRUDClient {
     }
 
     @CitrusTest
-    @Test(description = "Проверка вызова метода без создания уточек")
+    @Test(priority = 1, description = "Проверка вызова метода без создания уточек")
     public void successfulGetAllIdsWithoutCreateDucks(@Optional @CitrusResource TestCaseRunner runner) {
         clearDataBase(runner, "DataSource/ClearDataBase.sql");
 
@@ -35,7 +38,7 @@ public class DuckGetAllIdsTests extends DuckCRUDClient {
     }
 
     @CitrusTest
-    @Test(description = "Проверка вызова метода при создании одной уточки")
+    @Test(priority = 2, description = "Проверка вызова метода при создании одной уточки")
     public void successfulGetAllIdsWithOneDuck(@Optional @CitrusResource TestCaseRunner runner) {
         clearDataBase(runner, "DataSource/ClearDataBase.sql");
 

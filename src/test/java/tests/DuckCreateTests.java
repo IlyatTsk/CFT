@@ -5,12 +5,15 @@ import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import com.consol.citrus.testng.CitrusParameters;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Flaky;
 import org.springframework.http.HttpStatus;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 import payloads.DuckProperties;
 
+@Epic("Тестовый класс создания уточки")
 public class DuckCreateTests extends DuckCRUDClient {
 
     DuckProperties firstDuck = new DuckProperties().color("yellow").height(1).sound("quack").material("rubber").wingsState("ACTIVE");
@@ -34,6 +37,7 @@ public class DuckCreateTests extends DuckCRUDClient {
 
     @CitrusTest
     @Test(description = "Проверка создания уточки с полем height = 1")
+    @Flaky
     public void successfulCreateWithHeightIsOne(@Optional @CitrusResource TestCaseRunner runner) {
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuckWithHeightIsOne.json");
         extractId(runner);
