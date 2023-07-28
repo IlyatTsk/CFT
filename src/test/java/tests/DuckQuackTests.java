@@ -4,10 +4,12 @@ import clients.DuckActionsClient;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
 import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Тестовый класс проверок голоса уточек")
 public class DuckQuackTests extends DuckActionsClient {
 
     @CitrusTest
