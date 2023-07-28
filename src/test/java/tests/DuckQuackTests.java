@@ -13,6 +13,8 @@ public class DuckQuackTests extends DuckActionsClient {
     @CitrusTest
     @Test(description = "Проверка того, что уточка крякает 1 раз")
     public void successfulQuack(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         extractId(runner);
         duckQuack(runner, "${duckId}", "1", "1");
@@ -26,6 +28,8 @@ public class DuckQuackTests extends DuckActionsClient {
     @CitrusTest
     @Test(description = "Проверка того, что уточка крякает 5 раз")
     public void successfulQuackRepetitionCountFiveTimes(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         extractId(runner);
         duckQuack(runner, "${duckId}", "5", "1");
@@ -39,6 +43,8 @@ public class DuckQuackTests extends DuckActionsClient {
     @CitrusTest
     @Test(description = "Проверка того, что количество звуков у уточки равно 5")
     public void successfulQuackSoundCountFiveTimes(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         extractId(runner);
         duckQuack(runner, "${duckId}", "1", "5");
@@ -52,6 +58,8 @@ public class DuckQuackTests extends DuckActionsClient {
     @CitrusTest
     @Test(description = "Проверка пустого значения поля sound")
     public void successfulQuackWithoutSound(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuckWithoutSound.json");
         extractId(runner);
         duckQuack(runner, "${duckId}", "1", "1");
@@ -60,6 +68,5 @@ public class DuckQuackTests extends DuckActionsClient {
         validateResponseWithFileFromResourcesBase(runner, HttpStatus.OK, expectedFile);
 
         duckDelete(runner, "${duckId}");
-
     }
 }

@@ -5,8 +5,8 @@ import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import org.springframework.http.HttpStatus;
-import org.testng.TestRunner;
-import org.testng.annotations.*;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Test;
 
 public class DuckFlyTests extends DuckActionsClient {
 
@@ -32,5 +32,18 @@ public class DuckFlyTests extends DuckActionsClient {
 
         validateResponseWithFileFromResources(runner, HttpStatus.OK, "FlyTests/ResponseDuckFlyWingsStateIsFixed.json");
         duckDelete(runner, "${duckId}");
+    }
+
+    @CitrusTest
+    @Test(description = "Проверка того, что уточка полетела с помощью запроса к БД")
+    public void SuccessfulFlyDataBase(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+        runner.variable("duckId", "1234567");
+        insertDuckIntoDataBase(runner, "DataSource/InsertDuckIntoDataBase.sql");
+
+        duckFly(runner, "${duckId}");
+
+        validateResponseWithFileFromResources(runner, HttpStatus.OK, "FlyTests/ResponseDuckFlyWingsStateIsActive.json");
+        deleteDuckFinally(runner, "DELETE FROM DUCK WHERE ID=${duckId}");
     }
 }

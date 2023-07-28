@@ -13,6 +13,8 @@ public class DuckGetAllIdsTests extends DuckCRUDClient {
     @CitrusTest
     @Test(description = "Проверка корректного запроса метода, при создании трех уточек")
     public void successfulGetAllIds(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
@@ -25,6 +27,8 @@ public class DuckGetAllIdsTests extends DuckCRUDClient {
     @CitrusTest
     @Test(description = "Проверка вызова метода без создания уточек")
     public void successfulGetAllIdsWithoutCreateDucks(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckGetAllIds(runner);
 
         validateResponseWithString(runner, HttpStatus.OK, "[]");
@@ -33,6 +37,8 @@ public class DuckGetAllIdsTests extends DuckCRUDClient {
     @CitrusTest
     @Test(description = "Проверка вызова метода при создании одной уточки")
     public void successfulGetAllIdsWithOneDuck(@Optional @CitrusResource TestCaseRunner runner) {
+        clearDataBase(runner, "DataSource/ClearDataBase.sql");
+
         duckCreate(runner, "getDuckPropertiesTest/createYellowRubberActiveDuck.json");
         extractId(runner);
         duckGetAllIds(runner);

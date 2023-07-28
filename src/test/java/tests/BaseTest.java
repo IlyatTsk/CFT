@@ -11,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ContextConfiguration;
 
+import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
+import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
+import static com.consol.citrus.container.FinallySequence.Builder.doFinally;
 import static com.consol.citrus.dsl.MessageSupport.MessageBodySupport.fromBody;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
@@ -21,6 +25,9 @@ public class BaseTest extends TestNGCitrusSpringSupport {
 
     @Autowired
     protected HttpClient duckService;
+
+    @Autowired
+    protected SingleConnectionDataSource testDb;
 
     @Description("Выполнение GET запроса")
     protected void sendGetRequest(TestCaseRunner runner, String path, String queName, String queValue) {
@@ -129,5 +136,28 @@ public class BaseTest extends TestNGCitrusSpringSupport {
                 .response()
                 .message().contentType(MediaType.APPLICATION_JSON_VALUE)
                 .extract(fromBody().expression("$.id", "duckId")));
+    }
+
+    @Description("Запрос к БД")
+    protected void sendDatabaseUpdate(TestCaseRunner runner, String sql) {
+        runner.run(sql(testDb)
+                .sqlResource(sql));
+    }
+
+    @Description("Удаление уточки из БД")
+    public void sendDeleteDuckFinally(TestCaseRunner runner, String sql) {
+        runner.run(doFinally().actions(runner.run(sql(testDb)
+                .statement(sql))));
+    }
+
+    @Description("Валидация данных из БД")
+    public void validateDuckInDatabase(TestCaseRunner runner, String id, String color, String height, String material, String sound, String wingsState) {
+        runner.run(query(testDb)
+                .statement("SELECT * FROM DUCK WHERE ID=" + id)
+                .validate("COLOR", color)
+                .validate("HEIGHT", height)
+                .validate("MATERIAL", material)
+                .validate("SOUND", sound)
+                .validate("WINGS_STATE", wingsState));
     }
 }

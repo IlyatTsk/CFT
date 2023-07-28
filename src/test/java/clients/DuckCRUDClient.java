@@ -14,7 +14,7 @@ public class DuckCRUDClient extends BaseTest {
     }
 
     @Description("Выполнение запроса метода /api/duck/create с помощью файла")
-    public void duckCreateWithPayload(TestCaseRunner runner,Object body) {
+    public void duckCreateWithPayload(TestCaseRunner runner, Object body) {
         sendPostRequestWithPayloadBase(runner, EndpointConfig.CREATE, body);
     }
 
@@ -54,7 +54,17 @@ public class DuckCRUDClient extends BaseTest {
     }
 
     @Description("Экстракт id")
-    public void extractId(TestCaseRunner runner){
+    public void extractId(TestCaseRunner runner) {
         extractIdFromResponse(runner);
+    }
+
+    @Description("Очищение БД")
+    public void clearDataBase(TestCaseRunner runner, String sql) {
+        sendDatabaseUpdate(runner, sql);
+    }
+
+    @Description("Валидация данных из БД")
+    public void validateCreateDuck(TestCaseRunner runner, String id, String color, String height, String material, String sound, String wingsState) {
+        validateDuckInDatabase(runner, id, color, height, material, sound, wingsState);
     }
 }
